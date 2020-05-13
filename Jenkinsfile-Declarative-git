@@ -14,9 +14,22 @@ pipeline{
             }
         }
         
-        stage('Mvn Build'){
+        stage('Maven Build'){
             steps{
                 sh 'mvn clean package'
+            }
+        }
+        
+        stage('Deploy war to tomcat'){
+            steps{
+                sshagent(['tomcat']) {
+                       sh """
+                           scp -o ScriptHostKeyChecking=no target/CounterWebApp.war ec2-user@172.31.91.102:/opt/tomcat/webapps/
+                           ssh ec2@172.31.91.102 /opt/tomcat/bin/shutdown.sh
+                           ssh ec2@172.31.91.102 /opt/tomcat/bin/startup.sh
+                       
+                       """
+                    }
             }
         }
     }
