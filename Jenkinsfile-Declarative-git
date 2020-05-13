@@ -8,8 +8,6 @@ pipeline{
             steps{
                 git 'https://github.com/sarathkgit/Maven-CounterWebApp'
             }
-                
-            }
         }
     }
 }
