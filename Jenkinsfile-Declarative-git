@@ -25,7 +25,7 @@ pipeline{
                 sshagent(['tomcat-declarative']) {
                        sh """
                            scp -o StrictHostKeyChecking=no target/CounterWebApp.war ec2-user@172.31.90.182:/opt/tomcat/webapps/
-                         //  ssh ec2-user@172.31.90.182 /opt/tomcat/bin/shutdown.sh
+                        
                            ssh ec2-user@172.31.90.182 /opt/tomcat/bin/startup.sh
                        
                        """
