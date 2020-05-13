@@ -9,5 +9,11 @@ pipeline{
                 git 'https://github.com/sarathkgit/Maven-CounterWebApp'
             }
         }
+        
+        stage('Mvn Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
     }
 }
