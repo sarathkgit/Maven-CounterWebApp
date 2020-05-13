@@ -1,0 +1,28 @@
+node{
+    
+    def mvnHome = tool name: 'maven-3', type: 'maven'
+    
+    stage('SCM Checkout'){
+         git 'https://github.com/sarathkgit/Maven-CounterWebApp'
+    }
+    
+    stage('Compile Package'){
+         
+         sh "${mvnHome}/bin/mvn package"
+    }
+    
+    stage('Deploy WAR to Tomcat'){
+    
+        sshagent(['tomcat']) {
+            sh 'scp -o StrictHostKeyChecking=no target/*.war ec2-user@54.86.6.192:/opt/tomcat/webapps/'
+        }
+    }
+    
+    stage('Email Notification'){
+        
+        mail bcc: '', body: '''Hi
+        This is Jenkins Job Notification
+        Thanks and Regards,
+        Sarath''', cc: '', from: '', replyTo: '', subject: 'Jenkins Mail Notification Job', to: 'sarath0969@gmail.com'
+     }
+}
